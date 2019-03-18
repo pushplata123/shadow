@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="contactstyle.css">
+  <script src="info_script.js"></script>
+</head>
+<body>
+    <!--input box template-->
+        <template id="form-item-tmpl">      
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">              
+                <div class="form-group" id="input1">
+                    <label class="control-label col-sm-2" id="input2"><slot name:"lable"/></label>
+                        <div class="col-sm-10">          
+                                <input type="text" class="form-control" id="first_name" placeholder="" name="first name">
+                                
+                        </div>
+        </template>
+     <!--dropdown selection option template-->
+    
+        <template id="form-item2-tmpl">      
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">              
+                    <div class="form-group" id="dropdown1">
+                        <label class="control-label col-sm-2" id="dropdown2"><slot name:"lable"/></label>
+                            <div class="col-sm-10" id="dropdown3">          
+                                    <select class="form-control" id="gender-dropdown4">
+                                            <option value="none"></option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Others">Others</option>
+                                           
+                                    </select>
+                            </div>
+        </template>
+
+      <!--textarea template-->
+      
+        <template id="form-item3-tmpl">      
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">              
+                    <div class="form-group" id="textarea1">
+                        <label class="control-label col-sm-2" id="textarea2"><slot name:"lable"/></label>
+                            <div class="col-sm-10">          
+                                <textarea class="form-control" id="textarea-dropdown1"></textarea>
+                            </div>
+            </template> 
+        
+
+        <!--tab template-->
+
+        <template id="tab-tmpl">
+                <link rel="stylesheet" type="text/css" href="contactstyle.css">
+            <div class="tab">
+                <button class="tablinks" >Personal_Info</button>
+                <button class="tablinks" >Contact_Details</button>
+                <button class="tablinks" >General_Info</button>
+            </div>
+              
+        </template>
+         <!--checkbox template-->
+
+    <template id="checkbox-tmpl">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">              
+            
+            <div class="form-group" id="check1">        
+                    <div class="col-sm-offset-2 col-sm-10" id="check2">
+                      <div class="checkbox" id="check3">
+                        <label id="checkbox_lable"><input type="checkbox" name="remember"><slot></slot></label>
+                      </div>
+                    </div>
+                  </div>
+    </template>
+
+    
+ <script>
+     //conncted callback method calls each time when element gets added to the dom..
+    //custom element for input box
+    customElements.define("form-item",class Collapse extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#form-item-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+     
+        }
+            connectedCallback()
+            {
+                    console.log("inputbox connected");
+            }  
+
+        })  
+        //custom element for dropdown selection
+    customElements.define("form-item2",class Collapse extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#form-item2-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+    
+        }
+        connectedCallback()
+        {
+            console.log("dropdown connected");
+               }  
+    })
+      //custom element for textarea
+    customElements.define("form-item3",class Collapse extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#form-item3-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+
+        }
+        connectedCallback()
+        {
+            console.log("textarea connected");
+                   }  
+
+    })
+
+   //custom element for tabs
+    customElements.define("tab-item",class Tab extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#tab-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+   
+        }
+        connectedCallback()
+        {
+            console.log("tabs connected");
+            }  
+
+    })
+    //custom element for checkbox
+    customElements.define("checkbox-item",class Tab extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#checkbox-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+     
+        }
+        connectedCallback()
+        {
+            console.log("checkbox connected");
+               }  
+
+    })
+       
+    
+ </script>    
+ 
+
+    <tab-item id="tabs"></tab-item>
+
+    <div class="tabcontent" id="Personal_Info">
+        <form id="form1">
+        <header><h2 style="text-align:center">Personal Information</h2></header>
+        <form class="form-horizontal" action="">     
+        <form-item id="first_name">First Name: </form-item><br/>
+        <form-item id="last_name">Last Name:</form-item><br/>
+        <form-item id="age">Age</form-item><br/>
+        <form-item2 id="gender">Gender</form-item2><br/>
+        <form-item3 id="skills">Skills</form-item3><br/>
+        <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </form>
+    </div> 
+    <div class="tabcontent" id="Contact_Details">
+        <form id="form2">
+        <form-item id="mob_no">Mobile No.</form-item>
+        <form-item id="alt_mob_no">Alternate Mobile No.</form-item>
+        <form-item3 id="add">Address</form-item3>
+
+    </form>
+    </div>
+    <div class="tabcontent" id="General_Info">
+            <form id="form3">
+                    <div class="form-group" id="form_component1">
+                        <p>1. Do you worked before in any organiztion.</p>
+                        <checkbox-item id="checkyes">Yes</checkbox-item>
+                        <checkbox-item id="checkno">No</checkbox-item>
+                    </div>
+                    <div class="form-group" id="form_component2">
+                            <p>2. Description of previous project-work.</p>
+                            <form-item id="title">Project Title: </form-item>
+                            <form-item3 id="description">Project description: </form-item3>
+                    </div>
+                    <div class="form-group" id="form_component3">
+                        <p>3. Technologies you are interested in?</p>
+                            <checkbox-item id="op1">Machine Learning</checkbox-item>
+                            <checkbox-item id="op2">Cloud Computing</checkbox-item>
+                            <checkbox-item id="op3">Web Development</checkbox-item>
+                            <checkbox-item id="op4">IOT</checkbox-item>
+                        
+                    </div>
+                </form>
+    </div>
+    
+    <!--test for drag and drop-->
+    <div class="row">
+    <div class="drag" id="div1"  ondrop="drop(event)" ondragover="allowDrop(event)" style="display:inline-block">
+        
+        <div id="drag" draggable="true" ondragstart="drag(event)" >
+          <form-item id="draggable-item"> </form-item>
+            </div>
+        
+        <div id="drag" draggable="true" ondragstart="drag(event)" >
+                <form-item id="draggable-item"> </form-item>
+              </div>
+            
+        <div id="drag" draggable="true" ondragstart="drag(event)" >
+                <form-item id="draggable-item"> </form-item>
+            </div>
+    </div>
+
+    
+    
+    
+    <div id="div2"  style="display:inline-block;" ondrop="drop(event)" ondragover="allowDrop(event)">
+      
+       <!-- <div id="drop1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="drop1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="drop1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        
+       -->
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+ 
+</head>
+<body>
+ 
+   <template id="form-tmpl">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        
+      <div class="container" style="border:inset;height:500px;width:500px;background:rgb(196, 199, 196);overflow:scroll;">
+     <h2 style="text-align:center; ">Personal Information</h2>
+    <form class="form-horizontal" action="">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">First Name:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Last Name:</label>
+      <div class="col-sm-10">          
+        <input type="text" class="form-control" id="last_name" placeholder="Enter last Name" name="last name">
+      </div>
+    </div>
+    <div class="form-group">
+            <label class="control-label col-sm-2" for="pwd">Gender:</label>
+            <div class="col-sm-10">          
+                    <select class="form-control" id="gender">
+                            <option value="none"></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>       
+                    </select>
+            </div>
+     </div>
+
+    <div class="form-group">
+            <label class="control-label col-sm-2" for="dob">Date of Birth:</label>
+            <div class="col-sm-10">          
+                   <input type="date" name="dob"></input>
+            </div>
+          </div>
+    
+          <div class="form-group">        
+                    <label class="control-label col-sm-2"> Age:</label>
+                    <div class="col-sm-10">   
+                    <input type="text" id="age" class="form-control">
+                 
+                </div>
+              </div>
+
+          <div class="form-group">
+              <label class="control-label col-sm-2"> experience:</label>
+              <div class="col-sm-10">   
+              <textarea type="text" id="skills" class="form-control"></textarea>
+            </div>  
+          </div>
+
+    
+      <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label id="lable"><input type="checkbox" name="remember" id="checkbox"/>Existing employee</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">        
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label><input type="checkbox" name="remember">New Hire</label>
+              </div>
+            </div>
+          </div>
+      
+  
+          <footer >
+    
+            <div class="form-group">        
+        <div class="col-sm-offset-2 col-sm-10" id="btn-div">
+          <button type="submit" id="check" class="btn btn-default">Submit</button>
+        </div>
+      </div>
+    </footer>
+    </form>
+    </div>
+    <slot></slot>
+</template>
+
+
+<script>
+        window.addEventListener("load",evt=>{
+           document.body.addEventListener("click",evt=>{
+                let path=[];
+                if(evt.composed)
+                   path=evt.composedPath()
+                console.log(path[0].id);   
+                console.log(path);
+            })
+        })
+      customElements.define("form-item",class Formelm extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+                let tmpl=document.getElementById("form-tmpl");
+                console.log(tmpl);
+                shadowRoot.appendChild(document.importNode(tmpl.content,true));
+           
+               
+        }
+        connectedCallback()
+            {
+                  console.log("item1 connected");
+                
+            }  
+
+        })  ;
+
+  
+</script>
+
+  <form-item id="click1">
+
+  </form-item>
+
+
+</body>
+</html>

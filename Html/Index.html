@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="script.js"></script>
+</head>
+<body>
+
+        <template id="header-nav-tmpl">
+                        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">     
+                        <nav class="navbar navbar-inverse" id="navbar1">
+                                <div class="container-fluid" id="navbar2">
+                                <div class="navbar-header" id="navbar3">
+                                    <a class="navbar-brand" href="#" id="heading1">Test_ShadowDom</a>
+                                </div>
+                                <ul class="nav navbar-nav" id="nav_list">
+                                    <li class="active" id="nav_list_item1"><a href="#">Home</a></li>
+                                    <li><a href="#" id="nav_list_item2">About</a></li>
+                                    <li><a href="#" id="nav_list_item3">Help</a></li>
+                                </ul>
+                                <slot/>
+                            </nav>           
+        </template>
+
+        <template id="search-bar">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">     
+                <form class="navbar-form navbar-right" action="">
+                    <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                    <slot></slot>>
+        </template>
+
+        <template id="list">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">     
+                <ul class="list-group">
+                        <li class="list-group-item "><slot></slot></li>
+                        <li class="list-group-item ">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                </ul>  
+        </template>
+
+        <template id="addlist"> 
+            <button id="add-item">+</button>
+            <slot/>
+        </template>
+
+        <template id="grid">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">          
+                        <div class="col-md-3">
+                            <slot/> 
+                        </div>
+                
+        </template>
+
+        <template id="form-container-tmpl">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> 
+                <style>
+                #form_container{
+                        background: rgb(211, 205, 205);
+                        padding: 30px;
+                        display: inline-block;
+                        visibility: show;
+                        overflow: scroll;
+                        
+                }
+                </style>     
+                <div id="form_container">
+                    <slot/>
+                    </div>
+        </template>
+
+        <template id="radiobutton-tmpl">
+            <input type="radio"></input>
+            <slot/>
+        </template>
+
+        <template id="remove-tmpl">  
+            <span style="color:red; opacity:0.5; padding:5px;" >x</span><slot/>
+        </template>
+
+
+
+<script>
+       
+
+      customElements.define("nav-header",class extends HTMLElement
+        {
+           constructor(){
+               super();
+                let tmpl = document.querySelector("#header-nav-tmpl");
+                let shadowRoot = this.attachShadow({mode: "open"});
+                
+                shadowRoot.appendChild(
+                    document.importNode(tmpl.content,true)
+                );
+           }
+           connectedCallback() {
+                console.log("nav-header connected to page");
+            }
+     })
+
+       customElements.define("search-bar",class extends HTMLElement{
+           constructor(){
+               super();
+               let shadowRoot=this.attachShadow({mode:"open"});
+               let tmpl=document.querySelector("#search-bar");
+               shadowRoot.appendChild(document.importNode(tmpl.content,true));
+       
+               
+           }
+           connectedCallback()
+           {
+               console.log("search bar connected")
+             }
+       })
+
+       customElements.define("list-container",class extends HTMLElement{
+           constructor(){
+               super();
+               let shadowRoot=this.attachShadow({mode:"open"});
+               let tmpl=document.querySelector("#list");
+               shadowRoot.appendChild(document.importNode(tmpl.content,true));
+               
+           }
+           connectedCallback()
+           {
+              console.log("list-container connected");
+           }
+         
+       })
+
+       customElements.define("add-item",class extends HTMLElement{
+        constructor(){
+               super();
+               
+           }
+           connectedCallback()
+           {
+            let shadowRoot=this.attachShadow({mode:"open"});
+               let tmpl=document.querySelector("#addlist");
+               shadowRoot.appendChild(document.importNode(tmpl.content,true));
+           }
+       })
+       customElements.define("grid-item",class  extends HTMLElement
+        {
+           constructor(){
+               super();
+           }
+           connectedCallback() {
+                console.log("nav-header connected to page");
+                let tmpl = document.querySelector("#grid");
+                let shadowRoot = this.attachShadow({mode: "open"});
+                
+                shadowRoot.appendChild(
+                    document.importNode(tmpl.content,true)
+                );
+              
+            }
+       })
+
+       
+       customElements.define("form-container",class extends HTMLElement
+        {
+           constructor(){
+               super();
+           }
+           connectedCallback() {
+                console.log("nav-header connected to page");
+                let tmpl = document.querySelector("#form-container-tmpl");
+                let shadowRoot = this.attachShadow({mode: "open"});
+                
+                shadowRoot.appendChild(
+                    document.importNode(tmpl.content,true)
+                );
+              
+            }
+       })
+
+      customElements.define("radio-element",class extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#radiobutton-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+
+        }
+        connectedCallback()
+        {
+            console.log("radio-button connected");
+        }
+    })
+       
+     customElements.define("remove-element",class extends HTMLElement{
+        constructor(){
+            super();
+            let shadowRoot=this.attachShadow({mode:"open"});
+            let tmpl=document.querySelector("#remove-tmpl");
+            shadowRoot.appendChild(document.importNode(tmpl.content,true));
+  
+        }
+        connectedCallback()
+        {
+            console.log("remove-element connected");
+         }
+    })
+
+     
+</script>
+
+        
+    <div class="container-fluid" id="first_component">
+            <nav-header>  
+                <search-bar>
+            </search-bar>
+                </nav-header>
+    </div>
+
+ 
+    <div class="container" id="second_component">
+ 
+    <div class="row" id="">  
+    <form-container id="form_container1">
+        <iframe id="iframe" src="Info_form.html" width="1110" height="400" ></iframe>
+    </form-container>
+    
+    <form-container id="form_container2">
+        <!--nested form->grid-> list-->
+        <grid-item id="grid1"><list-container id="list-grid1"><h3 id="listheading">list grid</h3></list-container> </grid-item>
+        
+        <grid-item id="grid2"><list-container id="list-grid2"><h3>list grid</h3></list-container> </grid-item>
+        
+        <grid-item id="grid3"><h2 id="heading3">heading</h2><p id="para3">Shadow host: The regular DOM node that the shadow DOM is attached to.
+        Shadow tree: The DOM tree inside the shadow DOM.
+        Shadow boundary: the place where the shadow DOM ends, and the regular DOM begins.
+        Shadow root: The root node of the shadow tree.</p></grid-item>
+        
+        <grid-item id="grid4"><h2 id="heading4">heading</h2><p id="para4">Shadow host: The regular DOM node that the shadow DOM is attached to.
+        Shadow tree: The DOM tree inside the shadow DOM.
+        Shadow boundary: the place where the shadow DOM ends, and the regular DOM begins.
+        Shadow root: The root node of the shadow tree.</p></grid-item>
+        
+        <grid-item id="grid5"><h2 id="heading4">heading</h2><p id="para4">Shadow host: The regular DOM node that the shadow DOM is attached to.
+        Shadow tree: The DOM tree inside the shadow DOM.
+        Shadow boundary: the place where the shadow DOM ends, and the regular DOM begins.
+        Shadow root: The root node of the shadow tree.</p></grid-item>
+       
+        <!--
+        <grid-item>
+                <div class="container" id="third-component" style="position:relative;"> 
+                <form-container id="toggle-check">
+                <button id="toggle-form">toggle</button>
+                <form-container id="list1">  
+                <add-item id="click-me"></add-item>    
+                </form-container> 
+                </form-container> 
+        </div> 
+        </grid-item>-->
+        
+        </form-container>
+     </div>
+</div>
+
+
+   
+
+
+
+
+
+
+</body>
+</html>

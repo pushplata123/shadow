@@ -1,0 +1,32 @@
+<template id="header-nav-tmpl">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">     
+        <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Test_ShadowDom</a>
+                  </div>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Help</a></li>
+                  </ul>
+                 <slot/>
+              </nav>           
+</template>
+<script>
+     customElements.define("nav-header",class Navheader extends HTMLElement
+        {
+           constructor(){
+               super();
+               let tmpl = document.querySelector("#header-nav-tmpl");
+                let shadowRoot = this.attachShadow({mode: "open"});
+                
+                shadowRoot.appendChild(
+                    document.importNode(tmpl.content,true)
+                );
+           }
+           connectedCallback() {
+                console.log("nav-header connected to page");
+            }
+       })
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="contactstyle.css">
+ 
+</head>
+<body>
+ <template id="form-item-tmpl">      
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">              
+                <div class="form-group">
+                    <label class="control-label col-sm-2"><p id="hello">hello</p></label>
+                        <div class="col-sm-10">          
+                                <input type="text" class="form-control" id="first_name" placeholder="" name="first name">
+                                <slot name="lable"/>
+                        </div>
+        </template> 
+        <script>
+       customElements.define("form-item",class Collapse extends HTMLElement{
+        constructor(){
+            super(); 
+            let shadowRoot=this.attachShadow({mode:"open"});
+                let tmpl=document.querySelector("#form-item-tmpl");
+                shadowRoot.appendChild(document.importNode(tmpl.content,true));
+                   
+               
+        }
+            connectedCallback()
+            {
+               console.log("item connected");
+               
+            }  
+
+        })  
+      
+       window.addEventListener("load",evt=>{
+        let drag=(ev)=> {
+            dragged=ev.target;
+        ev.dataTransfer.setData("text", ev.target.id);
+        console.log(dragged);
+        }
+        let drop=(ev) =>{
+            ev.preventDefault();
+            let data = ev.dataTransfer.getData("text");
+            let elm=document.getElementById(data);
+            
+            ev.target.appendChild(elm);
+        }
+        let  allowdrop=(ev)=>{
+            ev.preventDefault();
+            ev.target.style.background="red";
+        }
+
+        document.getElementById("drag").setAttribute("dragable","true")
+        document.getElementById("drag").addEventListener("dragstart",evt=>{dragged=ev.target;
+        ev.dataTransfer.setData("text", ev.target.id);
+        console.log(dragged);
+          
+       });
+       
+       
+       document.getElementById("drag1").addEventListener("dragstart",drag);
+       //document.getElementById("drop1").addEventListener("drop",drop)
+       //document.getElementById("drop1").addEventListener("dropover",allowdrop);
+      
+       
+       })
+       let drop=(ev) =>{
+            ev.preventDefault();
+            let data = ev.dataTransfer.getData("text");
+            let elm=document.getElementById(data);
+            console.log(data);
+            ev.target.appendChild(elm);
+        }
+        let  allowdrop=(ev)=>{
+            ev.preventDefault();
+            ev.target.style.background="red";
+        }
+
+       
+    </script>
+
+
+  <form-item id="drag">
+      <p slot="lable" id="hi">ndjkkj</p>
+  </form-item>
+   <br/>
+   <br/>
+   
+   <p draggable="true" id="drag1">drag me</p>
+   <div id="drop1" ondrop="drop(event)" ondragover="allowdrop(event)"></div>
+   </body>
+   </html>
